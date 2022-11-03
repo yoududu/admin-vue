@@ -4,10 +4,13 @@
             <p class="aname">基本资料</p>
             <div class="acontent">
                 <el-tabs v-model="activeName" @tab-click="handleClick">
-                    <el-tab-pane label="基本信息" name="first">
+                    <el-tab-pane label="修改信息" name="first">
                         <BasicInform></BasicInform>
                     </el-tab-pane>
-                    <el-tab-pane label="修改密码" name="second">
+                    <el-tab-pane label="修改邮箱" name="second">
+                        <UpdateEmail></UpdateEmail>
+                    </el-tab-pane>
+                    <el-tab-pane label="修改密码" name="third">
                         <ChagePass></ChagePass>
                     </el-tab-pane>
                 </el-tabs>
@@ -19,10 +22,12 @@
 <script>
 import BasicInform from './BasicInform.vue';
 import ChagePass from './ChagePass.vue'
+import UpdateEmail from './UpdateEmail.vue'
     export default {
         components:{
             BasicInform,
             ChagePass,
+            UpdateEmail,
         },
     data() {
         return {

@@ -6,10 +6,18 @@
         background-color="rgb(48,65,86)" 
         text-color="rgb(191,203,217)"
         router>
-        <el-menu-item index="/" class="submenu-title-noDropdown">
+        <el-menu-item index="/home" class="submenu-title-noDropdown">
             <i class="el-icon-menu"></i>
             <span slot="title">首页</span>
         </el-menu-item>
+        <el-submenu index="/administrator" class="submenu-title-noDropdown">
+        <template slot="title">
+            <i class="el-icon-s-custom"></i>
+          <span slot="title">管理员</span>
+        </template>
+          <el-menu-item index="/administrator/add" class="submenu-title-noDropdown">新增管理员信息</el-menu-item>
+          <el-menu-item index="/administrator/index" class="submenu-title-noDropdown">查询管理员信息</el-menu-item>
+        </el-submenu>
         <el-menu-item index="/title" class="submenu-title-noDropdown">
             <i class="el-icon-edit"></i>
             <span slot="title">大标题管理</span>
@@ -27,7 +35,7 @@
             <span slot="title">模块管理</span>
         </el-menu-item>
         <el-menu-item index="/vip" class="submenu-title-noDropdown">
-            <i class="el-icon-s-custom"></i>
+            <i class="el-icon-user"></i>
             <span slot="title">会员管理</span>
         </el-menu-item>
         <el-menu-item index="/zfborder" class="submenu-title-noDropdown">
@@ -53,7 +61,12 @@ export default{
     // },
     data(){
         return{
-            active:'/'
+            active:"/home"
+        }
+    },
+    watch:{
+        $route(newValue){
+            this.active = newValue.path;
         }
     },
     computed:{
@@ -83,5 +96,8 @@ export default{
 }
 .el-menu{
     height: inherit;
+}
+.el-submenu__title:hover{
+    background-color: #263445!important;
 }
   </style>

@@ -76,8 +76,19 @@
                             <span>
                                 <i class="el-icon-location-information"></i>邮箱地址：
                             </span>
-                            <span>12368@126.com</span>
+                            <span v-if="user.email">{{user.email}}</span>
+                            <el-button type="text" v-else class="clickok" @click="bindemail">点击绑定邮箱</el-button>
                         </li>
+                        <el-dialog title="" :visible.sync="dialogFormVisible" class="fasongk">
+                            <el-form :model="form" id="okk">
+                                <el-form-item label="绑定邮箱：" label-width="100px" prop="email">
+                                    <el-input v-model="form.email" autocomplete="off" placeholder="请输入邮箱地址"></el-input>
+                                </el-form-item>
+                            </el-form>
+                            <div slot="footer" class="dialog-footer">
+                                <el-button type="success" plain @click="sendcode">发送验证码</el-button>
+                            </div>
+                        </el-dialog>
                         <li class="list_item">
                             <span>
                                 <i class="el-icon-date"></i>创建时间：
@@ -98,7 +109,8 @@
 
 <script>
 import {VueCropper} from 'vue-cropper'
-import{ getUserProfile } from '@/store'
+// import{ getUserProfile } from '@/store'
+import { mapState } from 'vuex';
     export default {
         components: {VueCropper},
         data() {
@@ -127,11 +139,21 @@ import{ getUserProfile } from '@/store'
                     autoCropHeight: 150,
                     fixedBox: true // 截图框固定大小
                 },
+
+                dialogFormVisible:false,
+                form:{
+                    email:""
+                }
             }
         },
+        computed:{
+            ...mapState(['user'])
+        },
+
     created(){
         this.imageUrl = this.$store.state.user.avator;
         this.userName = this.$store.state.user.username;
+        // this.userEmail = this.$store.state.user.email;
         // this.gengxintu()
         this.$store.dispatch
     },
@@ -270,11 +292,85 @@ import{ getUserProfile } from '@/store'
         },
         imgok(){
             this.statee = false;
+        },
+        bindemail(){
+            this.dialogFormVisible = true
+        },
+        async sendcode() {
+            let formdata = new FormData();
+            let email = this.form.email
+            formdata.append('email',email);
+            console.log(email)
+            const res = await this.$http({
+                url: "/api/superbindemail",
+                method: "POST",
+                data: formdata,
+            })
+            // catch(error){
+            //     this.$message.error(res.msg);
+            // }
+            let response = res.data;
+            if (res.status == "error") {
+                this.$message.error(response.msg);
+            } else {
+                this.$alert("邮箱验证码发送成功，请注意查收，2分钟后过期作废！", "提示", {
+                    confirmButtonText: '确定',
+                    callback: action => {
+                        console.log('ok')
+                        this.$prompt('请输入邮箱中的', '提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            // inputPattern: /^\w{4}$/g,
+                            inputErrorMessage: '验证码格式不正确'
+                        }).then(({value}) => {
+                            this.$http({
+                                url: "/api/superbindemail",
+                                method: "PUT",
+                                data: `text=${value}`,
+                                headers: {
+                                    'Content-Type': "application/x-www-form-urlencoded"
+                                }
+                            }).then(res => {
+                                let response = res.data;
+                                if (response.status == 'error') {
+                                    this.$message.error(response.msg)
+                                } else {
+                                    this.$message({
+                                        type: 'success',
+                                        message: '你的邮箱绑定成功'
+                                    });
+                                }
+                            })
+                        })
+                        
+                        
+                    },
+                });
+            }    
         }
-    },
+    }
 }
 </script>
 <style>
+.homehtml .fasongk .el-dialog {
+    width: 400px;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%,-50%) !important;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    padding-top: 40px;
+    box-shadow: none !important;
+    margin-top: 0vh !important;
+}
+.homehtml .fasongk .el-form-item{
+    margin-bottom: 0px;
+}
+.homehtml .el-dialog__header{
+    padding: 0px;
+}
 .homehtml .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
@@ -392,5 +488,9 @@ import{ getUserProfile } from '@/store'
 }
 .el-date-editor.el-input, .el-date-editor.el-input__inner {
     width: 140px !important;
+}
+.clickok{
+    color: #267ac4;
+    text-decoration: underline;
 }
 </style>

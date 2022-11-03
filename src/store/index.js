@@ -12,6 +12,9 @@ export default new VueX.Store({
         user:{
             username:"",
             avator:"",
+            email:"",
+            phone:"",
+            gender:"",
         },
         token:"",    //token在硬盘中存储  vuex在内存条存储
     },
@@ -32,6 +35,14 @@ export default new VueX.Store({
         saveUserProfile(state,payload){
             state.user.username = payload.username;
             state.user.avator = payload.avator;
+            state.user.email = payload.email;
+            state.user.phone = payload.phone;
+            if(payload.gender == 1){
+                state.user.gender = "男";
+            }else{
+                state.user.gender = "女";
+            }
+            
         }
     },
     actions:{

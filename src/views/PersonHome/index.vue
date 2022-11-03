@@ -20,5 +20,6 @@ export default {
 .home_content{
     display: flex;
     flex-direction: row;
+    height: 569.4px;
 }
 </style>

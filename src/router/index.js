@@ -26,15 +26,19 @@ const WxOrder = () => import("@/views/WxOrder/index");
 // logs
 const Logs = () => import("@/views/Logs/index");
 //个人主页
-const PersonHome = () => import("@/views/PersonHome/index")
-
+const PersonHome = () => import("@/views/PersonHome/index");
+// 管理员
+const AdminIstrator = () => import("@/views/AdminIstrator/index");
+// 查询管理员
+const AdminIstratorAdd = () => import("@/views/AdminIstrator/Add");
 const routes = [
   {
     path:'/',
     component:LayOut,
+    redirect:'/home',
     children:[
       {
-        path:'',
+        path:'home',
         component:Home,
         meta:{   //原信息
           title:'首页'
@@ -147,6 +151,30 @@ const routes = [
     ]
   },
   {
+    path:'/login',
+    component:Login,
+  },
+  {
+    path:'/administrator',
+    component:LayOut,
+    children:[
+      {
+        path:'index',
+        component:AdminIstrator,
+        meta:{   //原信息
+          title:'查询管理员'
+        },
+      },
+      {
+        path:'add',
+        component:AdminIstratorAdd,
+        meta:{   //原信息
+          title:'新增管理员'
+        },
+      },
+    ]
+  },
+  {
     path:'/personhome',
     component:LayOut,
     children:[
@@ -159,10 +187,6 @@ const routes = [
       },
     ]
   },
-  {
-    path:'/login',
-    component:Login,
-  }
 ]
 
 const router = new VueRouter({
