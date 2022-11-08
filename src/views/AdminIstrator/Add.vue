@@ -38,7 +38,7 @@
             }
         },
         // adminydd 
-        // 密码：3L93N6WLUR
+        // 密码：yll123456
         methods:{
             submitForm() {
                 this.$refs.form.validate((valid) => {

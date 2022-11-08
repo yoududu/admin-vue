@@ -43,7 +43,6 @@
                 firstcode: '',
                 newEmail: '',
                 secondcode:'',
-                // resource:'',
             },
             activenum:0,
         };
@@ -55,6 +54,7 @@
         // 完成
         submitForm(ruleForm){
             this.reload()
+            console.log(this.reload())
         },
         // 重置按钮
         resetForm(formName) {

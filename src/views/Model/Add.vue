@@ -1,14 +1,18 @@
 <template>
-    <div class="mark" v-if="state" >
+    <div class="mark" v-if="state">
         <div class="title_from">
-        <el-form class="title_add" 
+        <el-form
             ref="ruleForm"
             :rules="rules"
             label-position="right" 
-            label-width="auto" 
+            label-width="130px" 
             :model="formLabelAlign">
-            <el-form-item label="新增标题名称" prop="name">
-                <el-input v-model="formLabelAlign.name"></el-input>
+            <el-descriptions title="新增模块"></el-descriptions>
+            <el-form-item label="一级标题编号：">
+                {{titleid}}
+            </el-form-item>
+            <el-form-item label="新增模块名称：" prop="model_name">
+                <el-input v-model="formLabelAlign.model_name"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm')">确认</el-button>
@@ -19,25 +23,25 @@
     </div>
 </template>
 <script>
-// $chilren $parent $root $emit props ref注册 this.$refs去找你注册的这个组件
 export default{
     data(){
         const validateName = (rule,value,callback) => {
             if(value == ""){
-                callback(new Error('请输入标题名称'));
+                callback(new Error('请输入章节名称'));
             }else{
                 callback();
             }
         }
         return{
             formLabelAlign:{
-                name:""
+                model_name:""
             },
             rules:{
-                name:[{validator:validateName,trigger:"blur"}]
+                chapter_name:[{validator:validateName,trigger:"blur"}]
                 //      自定义函数               触发方式
             },
             // visiable:true
+            
         }
     },
     props:{
@@ -46,31 +50,38 @@ export default{
                 default(){
                     return false
                 }
-            }
+            },
+            titleid:{
+                type:Number,
+                required:true,
+            },
+            // classifyname:{
+            //     type:String,
+            //     required:true,
+            // }
     },
-    // created(){
-    //     this.visiable = this.state;
-    // },
     methods:{
-        submitForm(name){
-            this.$refs[name].validate((state) => {
+        submitForm(chapter_name){
+            this.$refs[chapter_name].validate((state) => {
                 if(state){
-                    let name = this.formLabelAlign.name;
+                    let name = this.formLabelAlign.model_name;
+                    let classify = this.titleid;
                     let formData = new FormData();
                     formData.append('name',name);
+                    formData.append('classify',classify);
                     this.$http({   //发请求
-                        url:"/api/classify",
+                        url:"/api/course",
                         method:'POST',
                         data:formData
                     }).then(res => {
                         let response = res.data;
                         console.log(response)
                         if (response.status == 'success'){
-                            this.formLabelAlign.name = "";
+                            this.formLabelAlign.model_name = "";
                             this.$emit('cancel');
                             this.$message({
                                 type:'success',
-                                message:`${response.msg}:${response.title}`
+                                message:`模块新增成功！`
                             })
                             this.$emit('success')
                         }else{
@@ -85,7 +96,7 @@ export default{
             })
         },
         cancelForm(){
-            this.formLabelAlign.name = "";
+            this.formLabelAlign.chapter_name = "";
             // this.visiable = false;
             this.$emit('cancel')
         }
@@ -93,9 +104,7 @@ export default{
 }
 </script>
 <style>
-.title_add .el-form-item__content{
-    margin-left: 0px !important;
-}
+
 .mark{
     position: fixed;
     top: 0;
@@ -117,4 +126,5 @@ export default{
     border-radius: 5px;
     padding-top: 40px;
 }
+
 </style>

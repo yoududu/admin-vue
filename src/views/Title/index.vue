@@ -66,7 +66,7 @@
 <script>
 import Add from './Add';
 // import UpDate from './UpDate';
-
+import { mapState } from 'vuex';
 export default {
   name:"Title",
   components:{
@@ -98,6 +98,7 @@ export default {
     created(){
         this.rerenderTableData();
     },
+    
     methods: {
       rerenderTableData(){
         this.$http({
@@ -116,6 +117,8 @@ export default {
                 this.$message.error(response.msg);
             }
         })
+        // this.tableData = this.$store.state.firstTitle
+        // console.log(this.$store.state.firstTitle)
       },
       handleEdit(index,row) {
         // this.upstate = true;
@@ -148,11 +151,8 @@ export default {
             }
           }).then(res => {
             this.fullscreenLoading = false;
-            // console.log(res)
             let response = res.data;
-            // console.log(response)
             if (response.status == 'success') {
-              // console.log(response.status)
               this.$message({
                 type: "success",
                 message: "修改成功!!",
@@ -162,8 +162,8 @@ export default {
               this.$message.error(response.msg);
             }
           }).catch(error => {
-                        this.$message.error('接口错误');
-                    })
+            this.$message.error('接口错误');
+          })
         }).catch(() => {
             this.fullscreenLoading = false;
             this.$message({

@@ -1,7 +1,7 @@
 <template>
     <div class="mark" v-if="state">
         <div class="title_from">
-        <el-form class="title_add" 
+        <el-form
             ref="ruleForm"
             :rules="rules"
             label-position="right" 

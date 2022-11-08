@@ -10,7 +10,6 @@
             </el-option>
           </el-select>
         </div>
-        
       </header>
       <ChapterAdd :classifyid="titleid"  :state="state" @cancel="cancel" @success="success">
       </ChapterAdd>
@@ -97,7 +96,6 @@ export default {
             }],
             fullscreenLoading: false,
             titleid:33,
-
             tableDate:[],
             value: '',
             state:false,
@@ -129,9 +127,6 @@ export default {
       changeid(val){
         this.titleid=val
         this.rerenderChapterData();
-        // this.lala = this.$refs.ming.selectedLabel
-        // // console.log(this.lala)
-        // console.log(this.$refs.ming)
       },
       rerenderTableData(){
         this.$http({
@@ -179,7 +174,6 @@ export default {
           cancelButtonText: '取消',
           type: 'denger'
         }).then(() => {
-          // let name=this.form.name;
           this.fullscreenLoading = true;
           this.$http({
             url: "/api/chapter",
@@ -190,11 +184,8 @@ export default {
             }
           }).then(res => {
             this.fullscreenLoading = false;
-            // console.log(res)
             let response = res.data;
-            // console.log(response)
             if (response.status == 'success') {
-              // console.log(response.status)
               this.$message({
                 type: "success",
                 message: "修改成功!!",

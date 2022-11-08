@@ -1,6 +1,6 @@
 <template>
     <el-menu 
-        default-active="1-4-1" 
+        :default-active="active" 
         class="el-menu-vertical-demo submenu-title-noDropdown" 
         :collapse="isCollapse" 
         background-color="rgb(48,65,86)" 
@@ -61,7 +61,7 @@ export default{
     // },
     data(){
         return{
-            active:"/home"
+            active:'/home',
         }
     },
     watch:{

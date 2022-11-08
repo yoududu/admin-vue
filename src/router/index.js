@@ -157,6 +157,7 @@ const routes = [
   {
     path:'/administrator',
     component:LayOut,
+    redirect:'/administrator/index',
     children:[
       {
         path:'index',
@@ -177,9 +178,10 @@ const routes = [
   {
     path:'/personhome',
     component:LayOut,
+    redirect:'/personhome/index',
     children:[
       {
-        path:'',
+        path:'index',
         component:PersonHome,
         meta:{   //原信息
           title:'个人信息'

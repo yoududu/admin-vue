@@ -2,6 +2,7 @@ import VueX from "vuex";
 import Vue from 'vue';
 import axios from '@/axios';
 import { url } from '@/axios';
+// import { resolve } from "core-js/fn/promise";
 
 Vue.use(VueX);
 
@@ -16,6 +17,13 @@ export default new VueX.Store({
             phone:"",
             gender:"",
         },
+        // firstTitle:[],
+        // {
+        //     // id:"",
+        //     // name:"",
+        //     // create_time:"",
+        //     // update_time:""
+        // },
         token:"",    //token在硬盘中存储  vuex在内存条存储
     },
     mutations:{
@@ -33,7 +41,7 @@ export default new VueX.Store({
             state.isCollapse = !state.isCollapse;
         },
         saveUserProfile(state,payload){
-            state.user.username = payload.username;
+            state.user.id = payload.id;
             state.user.avator = payload.avator;
             state.user.email = payload.email;
             state.user.phone = payload.phone;
@@ -43,7 +51,14 @@ export default new VueX.Store({
                 state.user.gender = "女";
             }
             
-        }
+        },
+        // saveFirstTitle(state,payload){
+        //     // state.firstTitle.username = payload.username;
+        //     // state.firstTitle.name = payload.name;
+        //     // state.firstTitle.create_time = payload.create_time;
+        //     // state.firstTitle.update_time = payload.update_time;
+        //     state.firstTitle = payload;
+        // }
     },
     actions:{
         getUserProfile({ commit }){  //发请求
@@ -64,7 +79,26 @@ export default new VueX.Store({
                     reject(error);
                 })
             })
-        }
+        },
+        // getFirstTitle({ commit }){
+        //     return new Promise((resolve,reject) => {
+        //         axios({
+        //             url:"api/classify",
+        //         }).then(res => {
+        //             if(!this.data.status){
+        //                 res.data = `${url}${res.data}`;
+        //                 commit('saveFirstTitle',res.data);
+        //                 resolve(res.data);
+        //                 console.log(res.data)
+        //             }else{
+        //                 reject(res.data);
+        //             }
+        //         }).catch(error => {
+        //             reject(error);
+        //         })
+        //     })
+        // }
+
     }
 })
 // actions 存放异步操作

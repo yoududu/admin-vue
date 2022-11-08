@@ -112,8 +112,10 @@ import {VueCropper} from 'vue-cropper'
 // import{ getUserProfile } from '@/store'
 import { mapState } from 'vuex';
     export default {
+        inject: ['reload'],
         components: {VueCropper},
         data() {
+            
             return {
                 header:{
                     authorization:`Bearer ${this.$store.state.token}`
@@ -168,6 +170,9 @@ import { mapState } from 'vuex';
             })
             this.$store.dispatch
             // this.gengxintu()
+            // this.reload()
+            // console.log(this.reload())
+
         },
         editAvatar() {
             this.editAvatarDialog = true
@@ -176,6 +181,7 @@ import { mapState } from 'vuex';
             // console.log(11111);
             // console.log(this.option.img)
             // console.log(this.$refs.tututu)
+            
         },
         // 保存头像修改
         saveEditAvatar() {
@@ -186,6 +192,8 @@ import { mapState } from 'vuex';
             // console.log(this.finish('blob'));
             // console.log(this.action)
             this.$store.dispatch
+            this.$store.dispatch('getUserProfile')
+            
         },
         // 放大/缩小
         changeScale(num) {
@@ -337,7 +345,7 @@ import { mapState } from 'vuex';
                                 } else {
                                     this.$message({
                                         type: 'success',
-                                        message: '你的邮箱绑定成功'
+                                        $message: '你的邮箱绑定成功'
                                     });
                                 }
                             })

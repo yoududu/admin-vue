@@ -60,7 +60,8 @@
     methods:{
         resetForm(formName) {
         this.$refs[formName].resetFields();
-      }
+      },
+      submitForm(){}
     }
 }
 </script>

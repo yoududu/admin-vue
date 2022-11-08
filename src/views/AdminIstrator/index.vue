@@ -63,84 +63,84 @@
 
 <script>
 import { url } from '@/axios'
-    export default {
-        data(){
-            return{
-                adminData:[],
-                url,
-                fullscreenLoading:""
-            }
+export default {
+    data() {
+        return {
+            adminData: [],
+            url,
+            fullscreenLoading: ""
+        }
+    },
+    created() {
+        this.render()
+    },
+    methods: {
+        render() {
+            this.$http({
+                url: "/api/superusers",
+                methods: "GET",
+            }).then(res => {
+                let response = res.data;
+                // console.log(response)
+                if (response.status == 'error') {
+                    this.$message.error(response.msg);
+                } else {
+                    response.data.forEach(item => {
+                        item.id = item.id++
+                        item.create_time = new Date(item.create_time).toLocaleString();//转换为年月日
+                        item.update_time = new Date(item.update_time).toLocaleString();
+                    })
+                    this.adminData = response.data;
+
+                }
+            })
         },
-        created(){
-            this.render()
-        },
-        methods:{
-            render(){
+        handleDelete(index, row) {
+            this.$confirm('确认删除用户名, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'denger'
+            }).then(() => {
+                // let name=this.form.name;
+                this.fullscreenLoading = true;
                 this.$http({
-                    url:"/api/superusers",
-                    methods:"GET",
+                    url: "/api/removesuperuser",
+                    method: "DELETE",
+                    data: `pk=${row.id}`,
+                    headers: {
+                        'Content-Type': "application/x-www-form-urlencoded"
+                    }
                 }).then(res => {
+                    this.fullscreenLoading = false;
                     let response = res.data;
-                    // console.log(response)
-                    if(response.status == 'error'){
+                    if (response.status == 'success') {
+                        this.$message({
+                            type: "success",
+                            message: "删除成功!",
+                        });
+                        this.render();
+                    } else {
                         this.$message.error(response.msg);
-                    }else{
-                        response.data.forEach(item => {
-                            item.id = item.id++
-                            item.create_time = new Date(item.create_time).toLocaleString();//转换为年月日
-                            item.update_time = new Date(item.update_time).toLocaleString();
-                        })
-                        this.adminData= response.data;
-                        
                     }
                 })
-            },
-            handleDelete(index,row){
-                this.$confirm('确认删除用户名, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'denger'
-        }).then(() => {
-          // let name=this.form.name;
-          this.fullscreenLoading = true;
-          this.$http({
-            url: "/api/removesuperuser",
-            method: "DELETE",
-            data: `pk=${row.id}`,
-            headers: {
-              'Content-Type': "application/x-www-form-urlencoded"
-            }
-          }).then(res => {
-            this.fullscreenLoading = false;
-            let response = res.data;
-            if (response.status == 'success') {
-              this.$message({
-                type: "success",
-                message: "删除成功!",
-              });
-              this.render();
-            } else {
-              this.$message.error(response.msg);
-            }
-          })
-        }).catch(() => {
-            this.fullscreenLoading = false;
-            this.$message({
-              type: 'info',
-              message: '已取消删除'
+            }).catch(() => {
+                this.fullscreenLoading = false;
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
             });
-          });
-        this.dialogFormVisible = false;
-            },
-            gener(ow,column,cellValue,index){
-                if(cellValue == 1){
-                    return "男"
-                }else{
-                    return "女"
-                }
+            this.dialogFormVisible = false;
+        },
+        gener(ow, column, cellValue, index) {
+            if (cellValue == 1) {
+                return "男"
+            } else {
+                return "女"
             }
         }
     }
+}
 </script>
 
 <style>
