@@ -1,7 +1,7 @@
 <template>
     <div class="titlehtml">
       <header class="title_header">
-        <el-button type="primary" @click="showAdd">新增标题</el-button>
+        <el-button class="addbtn" type="primary" @click="showAdd" >新增标题</el-button>
       </header>
       <Add :state="state" @cancel="cancel" @success="success"></Add>
       <el-table
@@ -247,12 +247,18 @@ export default {
 .titlehtml .el-dialog__body{
   padding-bottom: 10px !important;
 }
+.addbtn{
+  margin-right: 10px;
+}
 </style>
 <style scoped>
+
 .title_header{
   background-color: #fff;
   margin-bottom: 10px;
   padding: 10px;
+  display: flex;
+  flex-direction: row-reverse;
 }</style>
 
 

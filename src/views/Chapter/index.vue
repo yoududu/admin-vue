@@ -1,7 +1,6 @@
 <template>
     <div class="chapterhtml">
-        <header class="title_header">
-        <el-button type="primary" @click="chapterAdd">新增标题</el-button>
+        <header class="chapter_header">
         <div class="multiple_choice"><span>当前一级标题：</span>
           <el-select v-model="titleid" placeholder="请选择" @change="changeid" >
             <el-option v-for="item in tableDate" :key="item.id" :label="item.name" :value="item.id" >
@@ -10,6 +9,7 @@
             </el-option>
           </el-select>
         </div>
+        <el-button class="addbtn" type="primary" @click="chapterAdd">新增标题</el-button>
       </header>
       <ChapterAdd :classifyid="titleid"  :state="state" @cancel="cancel" @success="success">
       </ChapterAdd>
@@ -260,7 +260,7 @@ export default {
 }
 </script>
 <style scoped>
-.title_header{
+.chapter_header{
   background-color: #fff;
   margin-bottom: 10px;
   padding: 10px;

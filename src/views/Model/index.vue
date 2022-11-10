@@ -1,7 +1,6 @@
 <template>
     <div class="modelhtml">
-        <header class="title_header">
-          <el-button type="primary" @click="showAdd">新增标题</el-button>
+        <header class="model_header">
           <div class="multiple_choice"><span>当前一级标题：</span>
           <el-select v-model="titleid" placeholder="请选择" @change="changeid" >
             <el-option v-for="item in tableDate" :key="item.id" :label="item.name" :value="item.id" >
@@ -10,6 +9,7 @@
             </el-option>
           </el-select>
         </div>
+        <el-button class="addbtn" type="primary" @click="showAdd">新增标题</el-button>
       </header>
       <Add :titleid="titleid"  :state="state" @cancel="cancel" @success="success">
       </Add>
@@ -246,10 +246,12 @@ export default {
 }
 </script>
 <style scoped>
-.title_header{
+.model_header{
   background-color: #fff;
   margin-bottom: 10px;
   padding: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 .multiple_choice{
   color: #909399;

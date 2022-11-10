@@ -1,10 +1,8 @@
 <template>
-    <div class="zfbhtml">
-        <!-- <header class="zfb_header">
-        <el-button type="primary" @click="showAdd" >刷新订单</el-button>
-      </header> -->
-        <el-table 
-            :data="zfbData" 
+    <div class="orderhtml">
+    <el-table class="orderform"
+    max-height="250"
+    :data="zfbData" 
             style="width: 100%" 
             :default-sort="{ prop: 'date', order: 'descending' }">
             <el-table-column prop="id" label="编号" sortable width="120px"></el-table-column>
@@ -13,33 +11,25 @@
             <el-table-column prop="qs_trade_no" label="交易订单" sortable width="230px"></el-table-column>
             <el-table-column prop="total_amount" label="交易金额" sortable ></el-table-column>
             <el-table-column prop="pay_state" label="交易状态" sortable :formatter="paystate"></el-table-column>
-            <el-table-column label="操作" width="190px">
+            <!-- <el-table-column label="操作" width="190px">
             <template #default="scope">
                 <el-button size="mini" type="primary" plain @click="renew(scope.$index, scope.row)">刷新订单</el-button>
             </template>
-            </el-table-column>
-        </el-table>
-        <div class="logspage">
-            <el-pagination background layout="prev, pager, next" :total="total" @current-change="handleCurrentChange"
-                v-model="page">
-            </el-pagination>
-        </div>
+            </el-table-column> -->
+    </el-table>
     </div>
-</template>
-<script>
-export default {
-    name: "ZfbOrder",
-    components: {},
-    data() {
+  </template>
+  
+  <script>
+    export default {
+      data() {
         return {
             zfbData: [],
             state: false,
             fullscreenLoading: false,
-            total:0,
-            page:1
-        };
-    },
-    created() {
+        }
+      },
+      created() {
         this.getList();
     },
     methods: {
@@ -53,7 +43,7 @@ export default {
             let pages=this.page;
             this.$http({
                 method: "GET",
-                url: `/api/alipay_order_query?page=${pages}`,
+                url: `/api/alipay_order_query?page=1`,
             }).then(res => {
                 console.log(res);
                 let response = res.data;
@@ -105,32 +95,10 @@ export default {
 };
 
 </script>
-<style>
-.zfb_header {
-  background-color: #fff;
-  margin-bottom: 10px;
-  padding: 10px 20px 10px 10px;
-  display: flex;
-  flex-direction: row-reverse;
-}
-.zfbhtml .el-pagination{
-  background-color: #fff;
-  padding: 10px;
-}
-.zfbhtml .logspage{
-    display: flex;
-    justify-content: center;
-    width: 100%;
+  <style scoped>
+  .orderhtml{
+    padding: 20px;
     background-color: #fff;
-    /* text-align: center; */
-    position: absolute;
-    bottom: 0px;
-}
-.zfbhtml .el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li{
-  color: #606266e3;
-} 
-.zfbhtml{
-  height: 588px;
-  position: relative;
-}
+    margin-top: 20px;
+  }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="viphtml">
         <header class="vip_header">
-        <el-button type="primary" @click="vipAdd">新增会员</el-button>
+        <el-button class="addbtn" type="primary" @click="vipAdd">新增会员</el-button>
       </header>
       <VipAdd :state="state" @cancel="cancel" @success="success"></VipAdd>
       <el-table
@@ -297,5 +297,7 @@ export default {
   background-color: #fff;
   margin-bottom: 10px;
   padding: 10px;
+  display: flex;
+  flex-direction: row-reverse;
 }
 </style>

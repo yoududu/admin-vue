@@ -7,7 +7,6 @@
             label-position="right" 
             label-width="auto" 
             :model="formLabelAlign"
-            
             >
             <el-form-item label="章节编号：">
                 {{chapterid}}
@@ -41,7 +40,7 @@
                 </el-upload>
             </el-form-item> 
             <el-form-item>
-                <el-button type="primary" @click="submitUpload" v-loading.fullscreen.lock="fullscreenLoading">确认</el-button>
+                <el-button type="primary" @click="submitUpload">确认</el-button>
                 <el-button @click="cancelForm('ruleForm')">取消</el-button>
             </el-form-item>
         </el-form>
@@ -84,9 +83,7 @@ export default{
             action:'',
             name:"",
             video_permission:"",
-            chapter_id:0,
-            fullscreenLoading:false
-            
+            chapter_id:0,    
         }
     },
     props:{
@@ -105,28 +102,27 @@ export default{
     //     // this.visiable = this.state;
     // },
     methods:{
-        rerenderVideoData() {
-            this.$http({
-                url: `/api/chapter_video?pk=${this.chapterid}`,
-                method: "GET",
-            }).then(res => {
-                let response = res.data;
-                if (response.status == 'success') {
-                    response.data.forEach(item => {
-                        item.create_time = new Date(item.create_time).toLocaleString();//转换为年月日
-                        item.update_time = new Date(item.update_time).toLocaleString();
-                    })
-                    this.videoData = response.data;
-                    // console.log(response);
-                } else {
-                    this.$message.error(response.msg);
-                }
-            })
-        },
+        // rerenderVideoData() {
+        //     this.$http({
+        //         url: `/api/chapter_video?pk=${this.chapterid}`,
+        //         method: "GET",
+        //     }).then(res => {
+        //         let response = res.data;
+        //         if (response.status == 'success') {
+        //             response.data.forEach(item => {
+        //                 item.create_time = new Date(item.create_time).toLocaleString();//转换为年月日
+        //                 item.update_time = new Date(item.update_time).toLocaleString();
+        //             })
+        //             this.videoData = response.data;
+        //             // console.log(response);
+        //         } else {
+        //             this.$message.error(response.msg);
+        //         }
+        //     })
+        // },
         submitUpload(){
             this.$refs.upload.submit();
-            this.fullscreenLoading=true;
-            // this.$emit('success');
+            this.$emit('addsuccess');
         },
         successs(res){
             if(res.status == 'error'){
@@ -136,9 +132,7 @@ export default{
                 type:"success",
                 message:'创建成功！'
             })
-            this.state = false
-            this.fullscreenLoading=false;
-            this.rerenderVideoData();
+            this.$parent.rerenderVideoData()
             }
         },
         change(file){
@@ -159,48 +153,8 @@ export default{
             
             console.log(file,1)  
         },
-        submitForm(name){
-            this.$refs[name].validate((state) => {
-                if(state){
-                    // let video = this.$refs.upload;
-                    let name = this.formLabelAlign.name;
-                    let chapter_id = this.chapterid;
-                    let video_permission = this.formLabelAlign.video_permission;
-                    let formData = new FormData();
-                    // formData.append('video',video);
-                    formData.append('chapter_id',chapter_id);
-                    formData.append('video_permission',video_permission);
-                    formData.append('name',name);
-                    // console.log(video,chapter_id,video_permission,name)
-                    this.$http({   //发请求
-                        url:"/api/chapter_video",
-                        method:'POST',
-                        data:formData
-                    }).then(res => {
-                        let response = res.data;
-                        console.log(response)
-                        if (response.status == 'success'){
-                            this.formLabelAlign.name = "";
-                            this.$emit('cancel');
-                            this.$message({
-                                type:'success',
-                                message:`${response.msg}:${response.title}`
-                            })
-                            this.$emit('success')
-                        }else{
-                            this.$message.error(response.msg);
-                        }
-                    }).catch(error => {
-                        this.$message.error('接口错误');
-                    })
-                }else{
-                    return false;
-                }
-            })
-        },
         cancelForm(){
             this.formLabelAlign.name = "";
-            // this.visiable = false;
             this.$emit('cancel')
         }
     }

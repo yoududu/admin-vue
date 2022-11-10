@@ -1,5 +1,5 @@
 <template>
-    <div class="adminhtml">
+    <div class="adminhtml" v-loading.fullscreen.lock="fullscreenLoading">
         <el-table
             :data="adminData"
             style="width: 100%"
@@ -76,10 +76,12 @@ export default {
     },
     methods: {
         render() {
+            this.fullscreenLoading = true;
             this.$http({
                 url: "/api/superusers",
                 methods: "GET",
             }).then(res => {
+                this.fullscreenLoading = false;
                 let response = res.data;
                 // console.log(response)
                 if (response.status == 'error') {

@@ -8,6 +8,7 @@ import axios from '@/axios';
 import Cookie from 'js-cookie';
 import store from '@/store'
 // import 'https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js';
+import 'dplayer'
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);    //vue use原理

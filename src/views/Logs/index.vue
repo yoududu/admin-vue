@@ -33,16 +33,8 @@ export default {
       logsData: [],
       total:0,
       page:1
-      // total:0,
-      // shu:{
-      //   counts:0
-        
-      // }
-      // total:null
-
     };
   },
-
     created() {
         this.getList();
     },
@@ -89,9 +81,8 @@ export default {
 .logshtml .logspage{
   display: flex;
   justify-content: center;
-width: 100%;
-background-color: #fff;
-
+  width: 100%;
+  background-color: #fff;
   /* text-align: center; */
   position: absolute;
   bottom: 0px;
